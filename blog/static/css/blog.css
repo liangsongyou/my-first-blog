@@ -30,6 +30,7 @@ h1, h2, h3, h4, .date, .post {
 .date {
     color: #828282;
     font-size: 15pt;
+    text-align: right;
 }
 
 .save {
@@ -57,13 +58,22 @@ h1, h2, h3, h4, .date, .post {
     font-size: 18pt;
 }
 
-.post > .date {
+/*.post > .date {
     text-align: right;
+}*/
+
+.comment {
+    margin: 20px 0px 20px 20px;
+   /* border: 1px solid black;*/
+   background: pink;
+   padding: 15px;
 }
 
+.comment > p {
+    /*border: 1px solid black;*/
+    padding-left: 30px;
 
-
-
+}
 
 
 
