@@ -43,8 +43,9 @@
     <div class="row">
         {% for comment in post.comments.all %}
             {% if user.is_authenticated or comment.approved_comment %}
-            <div class="col-md-4">
-                {{ comment.author }}
+            <div  class="col-md-4">
+                <a class="btn btn-sm btn-outline-primary" href="#">{{ comment.author }}</a>
+                
             </div>
             <div class="col-md-8 offset-md-1">
                 <p>{{ comment.text|linebreaks }}</p>

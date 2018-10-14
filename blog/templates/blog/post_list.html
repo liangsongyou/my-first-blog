@@ -6,7 +6,7 @@
     <div class="row">
       {% for post in posts %}
           <div class="col-md-4">
-            <p><a class="btn btn-secondary" href="{% url 'post_detail' pk=post.pk %}" role="button">{{ post.title }}</a></p>
+            <p><a class="btn btn-info" href="{% url 'post_detail' pk=post.pk %}" role="button">{{ post.title }}</a></p>
           </div>
       {% endfor %}
       
