@@ -1,9 +1,14 @@
 {% extends "blog/base.html" %}
 
+
+
 {% block content %}
-    <ul>
+    <div class="row">
       {% for post in posts %}
-          <li><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></li>
+          <div class="col-md-4">
+            <p><a class="btn btn-secondary" href="{% url 'post_detail' pk=post.pk %}" role="button">{{ post.title }}</a></p>
+          </div>
       {% endfor %}
-    </ul>
+      
+    </div>
 {% endblock content %}
