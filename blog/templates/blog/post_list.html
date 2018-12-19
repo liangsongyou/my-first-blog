@@ -3,12 +3,26 @@
 
 
 {% block content %}
-    <div class="row">
-      {% for post in posts %}
-          <div class="col-md-4">
-            <p><a class="btn btn-info" href="{% url 'post_detail' pk=post.pk %}" role="button">{{ post.title }}</a></p>
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-8 col-md-10 mx-auto">
+                {% for post in posts %}
+                <div class="post-preview">
+                  <a href="{% url 'post_detail' pk=post.pk %}">
+                    <h2 class="post-title">
+                      {{ post.title }}
+                    </h2>
+                  </a>
+                  <p class="post-meta">作者
+                    <a href="#">{{ post.author }}</a>
+                    发布于 {{ post.published_date|date:"Y-m-d" }}
+                   </p>
+                </div>
+                <hr>
+                 {% endfor %}
+                <!-- Pager -->
+              </div>
+            </div>
           </div>
-      {% endfor %}
-      
-    </div>
+
 {% endblock content %}

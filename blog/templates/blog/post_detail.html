@@ -1,71 +1,52 @@
 {% extends "blog/base.html" %}
+{% load staticfiles %}
 
+{% block header %}
+    <header class="masthead" style="background-image: url({% static 'img/post-bg.jpg' %})">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+              <h1>{{ post.title }}</h1>
+                  {% if post.published_date %}
+                    <span class="meta">作者
+                        <a href="#">{{ post.author }}</a>
+                        发布于 {{ post.published_date|date:"Y-m-d" }}</span>
+                {% else %}
+                    <span class="meta">
+                        {{ post.author }}
+                        <a href="{% url 'post_publish' pk=post.pk %}">发表</a>
+                         </span>
+                 {% endif %} 
+                 {% if  user.is_authenticated %}
+                    <span class="meta">
+                        {{ post.author }} 
+                        <a href="{% url 'post_edit' pk=post.pk %}">修改 </a>
+                        </span> |
+                    <span class="meta">
+                        {{ post.author }}
+                        <a href="{% url 'post_remove' pk=post.pk %}"> 删除</a>
+                         </span>
+                {% endif %}
 
-{% block jumbotron %}
-<div class="row">
-    <div class="col-md-6">
-        <h1>{{ post.title }}</h1>
-    </div>
-    <div class="col-md-6 offset-md-8 ">
-        {% if post.published_date %}
-            <a class="btn btn-sm btn-outline-secondary" href="#">{{ post.published_date|date:"Y-m-d" }}</a>
-            
-        {% else %}
-            <a class="btn btn-sm btn-outline-secondary"  href="{% url 'post_publish' pk=post.pk %}" >发表</a>
-        {% endif %} 
-        {% if  user.is_authenticated %}
-            <a class="btn btn-sm btn-outline-secondary" href="{% url 'post_edit' pk=post.pk %}">
-                修改
-            </a>
-            <a class="btn btn-sm btn-outline-secondary"  href="{% url 'post_remove' pk=post.pk %}">
-                删除
-            </a>
-        {% endif %}
-    </div>  
-</div>
-
-{% endblock jumbotron %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+{% endblock header %}
 
 {% block content %}
-    <hr>
-    <div class="row">
-        <div class="col-md-12">
-            <p>{{ post.text|linebreaksbr }}</p>
+     <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <p>
+                {{ post.text|linebreaksbr }}
+            </p>
+          </div>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-1 offset-md-11">
-            <a class="btn btn-sm btn-outline-secondary" href="{% url 'add_comment_to_post' pk=post.pk %}">评论</a>
-        </div>
-        
-    </div>
-    <div class="row">
-        {% for comment in post.comments.all %}
-            {% if user.is_authenticated or comment.approved_comment %}
-            <div  class="col-md-4">
-                <a class="btn btn-sm btn-outline-primary" href="#">{{ comment.author }}</a>
-                
-            </div>
-            <div class="col-md-8 offset-md-1">
-                <p>{{ comment.text|linebreaks }}</p>
-            </div>
-            <div class="col-md-4 offset-md-8">
-                <a class="btn btn-sm btn-outline-secondary" href="#">{{ comment.created_date|date:"D d M Y H:i" }}</a>
-                {% if not comment.approved_comment %}
-                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'comment_remove' pk=comment.pk%}">
-                        删除
-                    </a>
-                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'comment_approve' pk=comment.pk%}">
-                        提交
-                    </a>
-                {% endif %}
-            </div>
-            {% endif %}
-        {% empty %}
-            <div class="col-md-8 offset-md-1">
-                <p>尚无评论</p>
-            </div> 
-        {% endfor %}
-    </div>
+      </div>
+    </article>
 {% endblock content %}
