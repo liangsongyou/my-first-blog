@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
@@ -9,7 +10,18 @@ from .forms import PostForm, CommentForm
 def post_list(request):
     posts = Post.objects.filter(
         published_date__lte=timezone.now()).order_by('-published_date')
-    return render(request, 'blog/post_list.html', {'posts':posts})
+
+    paginator = Paginator(posts,25)
+
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+        
+    return render(request, 'blog/post_list.html', {'contacts':contacts})
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
