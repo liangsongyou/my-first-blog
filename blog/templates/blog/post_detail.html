@@ -2,51 +2,46 @@
 {% load staticfiles %}
 
 {% block header %}
-    <header class="masthead" >
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="post-heading">
-              <h1>{{ post.title }}</h1>
-                  {% if post.published_date %}
-                    <span class="meta">作者
-                        <a href="#">{{ post.author }}</a>
-                        发布于 {{ post.published_date|date:"Y-m-d" }}</span>
-                {% else %}
-                    <span class="meta">
-                        {{ post.author }}
-                        <a href="{% url 'post_publish' pk=post.pk %}">发表</a>
-                         </span>
-                 {% endif %} 
-                 {% if  user.is_authenticated %}
-                    <span class="meta">
-                        {{ post.author }} 
-                        <a href="{% url 'post_edit' pk=post.pk %}">修改 </a>
-                        </span> |
-                    <span class="meta">
-                        {{ post.author }}
-                        <a href="{% url 'post_remove' pk=post.pk %}"> 删除</a>
-                         </span>
-                {% endif %}
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+  
 {% endblock header %}
 
 {% block content %}
-     <article>
+  
+    
+    
+     <article style="padding:20px;">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <p>
-                {{ post.text|linebreaksbr }}
-            </p>
+        <div class="col-lg-10 col-md-10 mx-auto">
+            <div class="card ">
+              <div class="card-header text-white bg-dark">
+                <div class="row">
+                    <div class="col text-left">
+                      {{ post.created_date|date:"Y-m-d"}}
+                    </div>
+                    <div class="col text-right">
+
+
+                      {% if  user.is_authenticated %}
+                          {% if post.is_published %}
+                            <a href="{% url 'post_edit' pk=post.pk %}" style="color:red;">编辑 </a>
+                            <a href="{% url 'post_remove' pk=post.pk %}" style="color:red;"> 删除</a>
+                          {% else %}
+                            <a href="{% url 'post_publish' pk=post.pk %}" style="color:red;">提交</a>
+                          {% endif %}
+                          
+                      {% endif %}
+                    </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ post.title }}</h5>
+                <p class="card-text">{{ post.text|linebreaksbr }}</p>
+              </div>
+            </div>
           </div>
         </div>
+        
       </div>
     </article>
 {% endblock content %}

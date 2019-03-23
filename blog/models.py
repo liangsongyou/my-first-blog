@@ -19,6 +19,12 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def is_published(self):
+        if self.published_date:
+            return True
+        else:
+            return False
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', related_name='comments')
     author = models.CharField(max_length=200)
